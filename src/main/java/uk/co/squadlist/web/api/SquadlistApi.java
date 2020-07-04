@@ -609,6 +609,10 @@ public class SquadlistApi {
 
 		} catch (HttpBadRequestException e) {
 			throw new InvalidMemberException();
+
+		} catch (HttpPreconditionFailedException e) {
+			throw new InvalidMemberException();
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -633,6 +637,9 @@ public class SquadlistApi {
 		} catch (HttpBadRequestException e) {
 			throw new InvalidBoatException();
 
+		} catch (HttpPreconditionFailedException e) {
+			throw new InvalidBoatException();
+
 		} catch (HttpFetchException e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -654,6 +661,9 @@ public class SquadlistApi {
 		} catch (HttpBadRequestException e) {
 			throw new InvalidSquadException();
 
+		} catch (HttpPreconditionFailedException e) {
+			throw new InvalidSquadException();
+
 		} catch (HttpFetchException e) {
 			log.error(e);
 			throw new RuntimeException(e);
@@ -664,12 +674,18 @@ public class SquadlistApi {
 		}
 	}
 
-	public Member updateMemberDetails(Member member) {
+	public Member updateMemberDetails(Member member) throws InvalidMemberException {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateMemberRequest(member);
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeMemberDetails(httpFetcher.post(post));
+
+		} catch (HttpBadRequestException e) {
+			throw new InvalidMemberException();
+
+		} catch (HttpPreconditionFailedException e) {
+			throw new InvalidMemberException();
 
 		} catch (Exception e) {
 			log.error(e);
@@ -704,12 +720,18 @@ public class SquadlistApi {
 		}
 	}
 
-	public Squad updateSquad(Squad squad) {
+	public Squad updateSquad(Squad squad) throws InvalidSquadException {
 		try {
 			final HttpPost post = requestBuilder.buildUpdateSquadRequest(squad);
 			addAccessToken(post);
 
 			return jsonDeserializer.deserializeSquad(httpFetcher.post(post));
+
+		} catch (HttpBadRequestException e) {
+			throw new InvalidSquadException();
+
+		} catch (HttpPreconditionFailedException e) {
+			throw new InvalidSquadException();
 
 		} catch (Exception e) {
 			log.error(e);
@@ -745,6 +767,9 @@ public class SquadlistApi {
 		} catch (HttpBadRequestException e) {
 			throw new InvalidOutingException(e.getResponseBody());
 
+		} catch (HttpPreconditionFailedException e) {
+			throw new InvalidOutingException(e.getResponseBody());
+
 		} catch (HttpFetchException e) {
 			log.error("Unexpected HTTP exception: " + e.getResponseBody());
 			throw new RuntimeException(e);
@@ -763,6 +788,9 @@ public class SquadlistApi {
 			return jsonDeserializer.deserializeOutingDetails(httpFetcher.post(post));
 
 		} catch (HttpBadRequestException e) {
+			throw new InvalidOutingException(e.getResponseBody());
+
+		} catch (HttpPreconditionFailedException e) {
 			throw new InvalidOutingException(e.getResponseBody());
 
 		} catch (Exception e) {
