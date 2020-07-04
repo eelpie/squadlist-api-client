@@ -828,6 +828,9 @@ public class SquadlistApi {
 		} catch (HttpBadRequestException e) {
 			throw new InvalidAvailabilityOptionException(e.getResponseBody());
 
+		} catch (HttpPreconditionFailedException e) {
+			throw new InvalidAvailabilityOptionException(e.getResponseBody());
+
 		} catch (Exception e) {
 			log.error(e);
 			throw new RuntimeException(e);
