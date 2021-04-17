@@ -5,7 +5,7 @@
     <artifactId>squadlist-api-client</artifactId>
     <packaging>jar</packaging>
     <name>Squadlist API client</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>2021041701</version>
     <description>Squadlist API client</description>
 
     <properties>
